@@ -1,0 +1,10 @@
+<h1>詳細ページ</h1>
+
+  <%= @task.title %>
+  <%= @task.body %>
+
+  <%= link_to "編集ページ", edit_task_path %>
+
+  <%= link_to "削除ページ", task_path(@task), data:{ turbo_method: :delete, turbo_confirm: "本当に削除しますか？"} %>
+
+<%= link_to "TOPページへ戻る", root_path %>

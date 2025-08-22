@@ -1,0 +1,41 @@
+<div class="max-w-2xl mx-auto px-6 py-10">
+  <h1 class="text-3xl font-bold text-center mb-8">投稿ページ</h1>
+
+  <% if @task.errors.any? %>
+    <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+      <h2 class="font-semibold mb-2"><%= @task.errors.count %>件のエラーが発生しました</h2>
+      <ul class="list-disc pl-5">
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @task, local: true, class: "space-y-6" do |f| %>
+    <div>
+      <%= f.label :title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_field :title,
+            class: "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 " %>
+    </div>
+
+    <div>
+      <%= f.label :body, "内容", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_area :body, rows: 5,
+            class: "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+    </div>
+
+    <div>
+      <%= f.submit "送信",
+            class: "w-full rounded-xl bg-indigo-600 px-4 py-3 text-white font-semibold
+                     hover:bg-indigo-700 active:bg-indigo-800 transition disabled:opacity-50" %>
+    </div>
+  <% end %>
+
+  <div class="mt-6 text-center">
+    <%= link_to "TOPページへ戻る", root_path,
+          class: "text-indigo-600 hover:text-indigo-700 font-medium" %>
+  </div>
+</div>
+

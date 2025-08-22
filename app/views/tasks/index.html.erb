@@ -1,0 +1,12 @@
+<h1>一覧ページ</h1>
+
+<% @tasks.each do |task| %>
+  <%= task.title %>
+  <%= task.body %>
+  <%= link_to "詳細ページへ", task_path(task)	 %>
+<% end %>
+
+
+<%#= link_to "詳細ページ", task_path(task)	 %>
+
+<%= link_to "TOPページへ戻る", root_path %>
