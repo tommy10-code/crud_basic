@@ -1,4 +1,19 @@
-<h1>topページ</h1>
-<%= link_to "投稿一覧ページ", tasks_path %>
-<%= link_to "投稿ページ", new_task_path	 %>
+<div class="container mx-auto">
+  <h1 class="flex items-center justify-center  h-20">topページ</h1>
+    <div class="flex flex-col items-center">
+      <%= link_to "投稿一覧ページ", tasks_path%>
+      <%= link_to "投稿ページ", new_task_path	 %>
+    </div>
 
+
+  <footer class="flex justify-between">
+    <div class="">Progate</div>
+    <div class="">
+      <ul class="gap-3">
+        <li class="">会社概要</li>
+        <li>採<span class="text-red-500">用</span>用</li>
+        <li>お問い合わせ</li>
+      </ul>
+    </div>
+  </footer>
+</div>
