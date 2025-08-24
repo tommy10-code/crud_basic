@@ -1,0 +1,83 @@
+# .github/workflows/rspec.yml
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        # 17.x 系を使う（17.6 を明示したい場合は 'postgres:17.6' にしてOK）
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres -d app_test"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Ruby 3.3.6 をセットアップ（Gem のキャッシュ込み）
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.6'
+          bundler-cache: true
+
+      # Node 20.18.0（esbuild/Tailwind 用）
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.0'
+          cache: 'yarn'   # yarn.lock がなければ自動で無視される
+
+      # 依存インストール（package.json があれば）
+      - name: Install JS deps
+        if: ${{ hashFiles('package.json') != '' }}
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile
+
+      # system spec 用にヘッドレス Chrome を導入
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      - name: Export CHROME_BIN
+        run: echo "CHROME_BIN=$(which google-chrome || which chrome || which chromium || true)" >> $GITHUB_ENV
+
+      # DB 準備
+      - name: Prepare DB
+        run: bundle exec rails db:prepare
+
+      # （任意）静的解析：厳密に落としたくないなら || true のまま
+      - name: RuboCop
+        run: bundle exec rubocop -D || true
+
+      # RSpec 実行（system spec を含む）
+      - name: Run RSpec
+        run: bundle exec rspec --format documentation
+
+      # 失敗時に Capybara のスクショ/HTML を保存（調査がラク）
+      - name: Upload Capybara artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capybara-artifacts
+          path: |
+            tmp/capybara/*.png
+            tmp/capybara/*.html
