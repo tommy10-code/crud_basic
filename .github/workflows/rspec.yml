@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  rspec:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
 
@@ -63,6 +63,12 @@ jobs:
       # DB 準備
       - name: Prepare DB
         run: bundle exec rails db:prepare
+
+      # アセットをビルド（application.css を生成）
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
+        env:
+          RAILS_ENV: test
 
       # （任意）静的解析：厳密に落としたくないなら || true のまま
       - name: RuboCop
