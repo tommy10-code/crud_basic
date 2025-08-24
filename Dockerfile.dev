@@ -14,7 +14,17 @@ RUN apt-get update -qq \
 && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
 && wget --quiet -O - /tmp/pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn vim
+
+# ← ここに追加インストールをまとめて書く
+RUN apt-get update -qq && apt-get install -y \
+    build-essential libpq-dev nodejs yarn vim \
+    chromium chromium-driver libnss3 libxi6 libgbm1 fonts-ipafont-gothic tzdata \
+ && rm -rf /var/lib/apt/lists/*
+
+# 環境変数をセット（Selenium Managerを無効化＆パス指定）
+ENV SELENIUM_MANAGER_DISABLE=true
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 # ディレクトリを作成してそれを作業ディレクトリ（Dockerが操作するディレクトリ）に設定
 RUN mkdir /myapp
