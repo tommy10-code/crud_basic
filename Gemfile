@@ -41,7 +41,6 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-  gem 'rspec-rails'
   gem 'factory_bot_rails'
 end
 
@@ -52,6 +51,7 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem 'rspec-rails'
   gem "capybara"
   gem "selenium-webdriver"
 end
