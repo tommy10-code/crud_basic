@@ -1,5 +1,5 @@
 # .github/workflows/rspec.yml
-name: CI
+name: RSpec
 
 on:
   push:
