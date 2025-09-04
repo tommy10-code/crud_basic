@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "homes#index"
+  get "tests", to: "tests#index"
   resources :tasks
 
   get "up" => "rails/health#show", as: :rails_health_check
