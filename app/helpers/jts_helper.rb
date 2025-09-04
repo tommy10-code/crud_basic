@@ -1,0 +1,2 @@
+module JtsHelper
+end

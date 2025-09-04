@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get "tests", to: "tests#index"
 
+  get "jts", to: "jts#index"
   resources :tasks
 
   get "up" => "rails/health#show", as: :rails_health_check
