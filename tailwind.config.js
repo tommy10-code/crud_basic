@@ -2,6 +2,7 @@
 export default {
   content: [
     "./app/views/**/*.html.erb",
+
     "./app/javascript/**/*.js",
   ],
   theme: {
