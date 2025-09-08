@@ -1,19 +1,16 @@
-<style>
-  .pink-bg {
-    background: pink;
-  }
-
-  .red-border {
-    border: 2px solid red;
-  }
-
-  .green-color {
-    color: green;
-  }
-</style>
-
 <h1>テストページ</h1>
-<P class="green-color">hello</P>
+<P>hello</P>
+<div class="flex flex-col w-[50%] gap-8 my-8">
+<input type="text" class="border">
+<textarea class="border">こんにちは</textarea>
+
+<div class="flex">
+  <input type="radio" name="color" value="red" class="mr-4">Red
+  <input type="radio" name="color" value="green" class="mx-4">Green
+  <input type="radio" name="color" value="blue" class="mx-4">Blue
+</div>
+
 <button>OK</button>
+</div>
 
 <script src="/test.js"></script>
