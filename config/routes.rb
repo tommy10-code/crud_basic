@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "homes#index"
+  resources :user, only: [:index, :show]
 
   get "tests", to: "tests#index"
 
