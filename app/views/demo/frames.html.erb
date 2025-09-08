@@ -1,0 +1,19 @@
+<!-- app/views/demo/frames.html.erb -->
+<div class="max-w-xl mx-auto p-6 space-y-4">
+  <h1 class="text-2xl font-bold">Turboデモ：部分更新</h1>
+
+  <!-- 🧩 リスト本体、差し替え先（ここにappend/prependする） -->
+  <div id="items-list" class="space-y-2">
+    <% @items.each do |item| %>
+      <div class="p-3 rounded border bg-white">
+        <%= item %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ✏️ 追加フォーム（通常のform_withでOK） -->
+  <%= form_with url: "/demo/items", scope: :item, data: { turbo: true }, class: "flex gap-2" do |f| %>
+    <%= f.text_field :content, class: "border rounded px-2 py-1 flex-1", placeholder: "新しいアイテム…" %>
+    <%= f.submit "追加", class: "px-3 py-1 rounded bg-blue-600 text-white" %>
+  <% end %>
+</div>
