@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* 初期値を変更できる bodyを全部18pxに変更 */
+/* @layer base {
+  body {
+    font-size: 18px;
+  }
+}
+*/
+
