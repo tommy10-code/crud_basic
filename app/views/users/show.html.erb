@@ -1,0 +1,8 @@
+<!-- app/views/users/show.html.erb -->
+<!--「レスポンスの中でどの部分を Turbo が差し替えるか」-->
+<%= turbo_frame_tag "user-detail" do %>
+  <div class="p-4 border rounded">
+    <h3 class="font-bold text-xl"> <%= @user[:name]%></h3>
+    <p class="mt-2"><%= "#{@user[:bio]}です" %></p>
+  </div>
+<% end %>

@@ -97,13 +97,28 @@
 //   });
 // }
 
-// ラジオボタンで選択された値を取得する方法
-{ //選んだラジオボタンの値をアラートで表示する
-  document.querySelector('button').addEventListener('click', () =>{
-    document.querySelectorAll('input').forEach((radio) => {
-      if (radio.checked){ //radio.checked true → 選択されている（チェックされている）false → 選択されていない
-        alert(radio.value)
-      }
-    });
-  });
+//入力部品の値が変更されたときのイベントであるinputについて
+//inputで入力されたものと同じものがpタグに入る
+//inputで入力された文字数をカウントする lengthつけるだけ
+
+{ //inputで入力されたものと同じものがpタグに入る
+
+
 }
+
+//入力部品にフォーカスが当たったとき
+
+{ //入力部品にフォーカスが当たったとき
+
+}
+
+// 要素のスタイルを変更する styleでcddを適用
+ { //pタグの要素を大きくする
+  document.querySelector('button').addEventListener('click', () => {
+  //これだとstyleを上書きしてしまう
+  document.querySelector('p').style = 'font-size: 24px;'
+  //これだと元々のstyleを維持したまま文字を変更できる
+  document.querySelector('p').style.fontSize = '24px'
+  });
+ }
+
