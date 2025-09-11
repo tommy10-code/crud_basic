@@ -43,8 +43,6 @@ jobs:
       - name: Install JS dependencies
         run: |
           if [ -f yarn.lock ]; then
-            corepack enable || true
-            corepack prepare yarn@stable --activate || true
             yarn install --frozen-lockfile
           elif [ -f package-lock.json ]; then
             npm ci
