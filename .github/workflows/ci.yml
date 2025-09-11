@@ -48,7 +48,11 @@ jobs:
             npm ci
           fi
 
+      - name: Precompile assets (test)
+        run: RAILS_ENV=test bin/rails assets:precompile
+
       - name: Prepare DB
         run: bin/rails db:prepare
+
       - name: Run RSpec
         run: bundle exec rspec
