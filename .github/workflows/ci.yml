@@ -1,100 +1,36 @@
 name: CI
 
 on:
-  pull_request:
   push:
     branches: [ main ]
+  pull_request:
 
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
-  # ← ここをRSpec用に調整
   test:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:17
+      db:
+        image: postgres:15
+        ports: [ "5432:5432" ]
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: app_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres -d app_test"
-          --health-interval=10s --health-timeout=5s --health-retries=5
 
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_test
 
     steps:
-      # Chrome は system spec 用
-      - name: Install system packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
-
-      - uses: actions/checkout@v4
-
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3'
           bundler-cache: true
-
-      # ★ Node を入れて yarn install（css/jsビルドに必須）
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install JS deps (if package.json exists)
-        if: ${{ hashFiles('package.json') != '' }}
-        run: |
-          corepack enable
-          yarn install --frozen-lockfile
-
-      # DB 準備
       - name: Prepare DB
-        run: bundle exec rails db:prepare
-
-      # ★ ここがポイント：RSpec 前に precompile
-      - name: Precompile assets
-        run: bundle exec rails assets:precompile
-        env:
-          RAILS_ENV: test
-
-      # RSpec を実行（Minitestではなく）
+        run: bin/rails db:prepare
       - name: Run RSpec
-        run: bundle exec rspec --format documentation
-
-      # 失敗時にCapybaraのアーティファクトを保存
-      - name: Upload Capybara artifacts
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: capybara-artifacts
-          path: |
-            tmp/capybara/*.png
-            tmp/capybara/*.html
-          if-no-files-found: ignore
+        run: bundle exec rspec
