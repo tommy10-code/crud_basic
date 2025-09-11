@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
   root "homes#index"
-
+  
   get "demo/frames", to: "demo#frames"
   post "demo/items", to: "demo#create"
+  get "tests", to: "tests#index"
+  get "jts", to: "jts#index"
+  get "burger", to: "burger#index"
 
   resources :users, only: [:index, :show]
-
-  get "tests", to: "tests#index"
-
-  get "jts", to: "jts#index"
   resources :tasks
 
   get "up" => "rails/health#show", as: :rails_health_check
