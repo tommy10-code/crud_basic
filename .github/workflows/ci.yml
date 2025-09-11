@@ -30,6 +30,23 @@ jobs:
         with:
           ruby-version: '3.3'
           bundler-cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'   # or 'npm'
+
+      - name: Install JS dependencies
+        run: |
+          if [ -f yarn.lock ]; then
+            corepack enable || true
+            corepack prepare yarn@stable --activate || true
+            yarn install --frozen-lockfile
+          elif [ -f package-lock.json ]; then
+            npm ci
+          fi
+
       - name: Prepare DB
         run: bin/rails db:prepare
       - name: Run RSpec
