@@ -37,6 +37,9 @@ jobs:
           node-version: '20'
           cache: 'yarn'   # or 'npm'
 
+      - name: Use Yarn v1 (lockfileに合わせる)
+        run: corepack prepare yarn@1.22.22 --activate
+
       - name: Install JS dependencies
         run: |
           if [ -f yarn.lock ]; then
