@@ -1,32 +1,35 @@
-console.log("Hello, Basic!");
+// {
+//   let isDevMode = true;
+//   const pElement = document.querySelector('p');
+//   const buttonElement = document.querySelector('button');
 
-{
-  // //最大値を取得
-  // const numbers = [1, 2, 3, 4, 5];
-  // // max = 0として、それより大きかったら、maxを更新していく
-  // let max = 0;
-  // numbers.forEach((num) => {
-  //   if (max < num){
-  //     max = num
-  //   };
-  // });
-  // console.log(max);
+//   buttonElement.addEventListener('click', () => {
+//     if (!confirm('OK?')) {
+//       return pElement.textContent ='is DevMode On'; 
+//     }
+//       if(isDevMode){
+//       pElement.textContent = 'is DevMode Off'
+//     } else {
+//       pElement.textContent = 'is DevMode On'
+//     }
+//   });
+// }
 
-  // // Math.maxを使って最大値を取得する
-  // //スプレッド構文だと、(1, 2, 3, 4, 5)と数字で渡せる
-  // console.log(Math.max(...numbers));
-  // console.log(Math.min(...numbers));
-}
+//!isDevMode !が否定なので、isDevModeが反対になるtrueだとfalseに
 
-{ //大文字小文字で判別するには？
-  //toLowerCase() 入力したものが全て小文字に
-  //toUpperCase() 入力したものが全て大文字に
-  //.trim() 前後の空白をなくす
-  const string = prompt("名前は？");
+//confirmでOKでtrue キャンセルでfalse
 
-  if (string.toLowerCase().trim() === 'taro'){
-    console.log('正解');
-  } else {
-    console.log('不正解');
-  }
-}
+
+
+//undefined 定義されていない値
+
+// null
+
+// typeof
+console.log(typeof 5);               // number
+console.log(typeof 'Hello');          // string
+console.log(typeof [5, 8]);           // object
+console.log(typeof {math: 80, english: 90}); // object
+console.log(typeof true);             // boolean
+console.log(typeof undefined);        // undefined
+console.log(typeof null);             // object
